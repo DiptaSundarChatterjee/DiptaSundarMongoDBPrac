@@ -1,0 +1,792 @@
+
+C:\Users\dipta>mongosh
+Current Mongosh Log ID: 6667ed8aa0d70b0391cdcdf5
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.6
+Using MongoDB:          7.0.11
+Using Mongosh:          2.2.6
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-06-07T15:13:36.684+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin           40.00 KiB
+config         108.00 KiB
+local           40.00 KiB
+mydb1           72.00 KiB
+youtube-app-1  108.00 KiB
+test> use mydb1
+switched to db mydb1
+mydb1> show collections
+diptadata
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Front End',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Back End',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Youtube',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: true
+  }
+]
+mydb1> db.diptadata.find({name: "MongoDB"})
+[
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Back End',
+    videos: 80,
+    active: true
+  }
+]
+mydb1> db.diptadata.find({name: "MongoDB"},{name:1})
+[ { _id: ObjectId('6667e6c330b11fa6b6cdcdf7'), name: 'MongoDB' } ]
+mydb1> db.diptadata.find({name: "MongoDB"},{name:1}).pretty()
+[ { _id: ObjectId('6667e6c330b11fa6b6cdcdf7'), name: 'MongoDB' } ]
+mydb1> db.diptadata.find({name: "MongoDB"},{id:0 name:1})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:42)
+
+> 1 | db.diptadata.find({name: "MongoDB"},{id:0 name:1})
+    |                                           ^
+  2 |
+
+mydb1> db.diptadata.find({name: "MongoDB"},{_id:0 name:1})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:43)
+
+> 1 | db.diptadata.find({name: "MongoDB"},{_id:0 name:1})
+    |                                            ^
+  2 |
+
+mydb1> db.diptadata.find({name: "MongoDB"},{_id:0 ,name:1})
+[ { name: 'MongoDB' } ]
+mydb1> db.diptadata.find({active:true}).limit(1)
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Front End',
+    videos: 80,
+    active: true
+  }
+]
+mydb1> db.diptadata.findOne({active:true})
+{
+  _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+  name: 'ReactJs',
+  type: 'Front End',
+  videos: 80,
+  active: true
+}
+mydb1> db.diptadata.find({active:true}).limit(1).skip(1)
+[
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Back End',
+    videos: 80,
+    active: true
+  }
+]
+mydb1> db.diptadata.updateOne({name:"MongoDB"},{$set:{type:"Full Stack"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Front End',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Youtube',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: true
+  }
+]
+mydb1> db.diptadata.update({type:"Front End"},{$set:{type:"Full Stack"}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Youtube',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: true
+  }
+]
+mydb1> db.diptadata.update({type:"Back End"},{$set:{type:"Front End"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Youtube',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Front End',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: true
+  }
+]
+mydb1> db.diptadata.update({type:"Back End"},{$set:{type:"Front End"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Youtube',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Front End',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Front End',
+    videos: 29,
+    active: true
+  }
+]
+mydb1> db.diptadata.updateMany({type:"Front End"},{$set{type:"Back End"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:48)
+
+> 1 | db.diptadata.updateMany({type:"Front End"},{$set{type:"Back End"}})
+    |                                                 ^
+  2 |
+
+mydb1> db.diptadata.updateMany({type:"Front End"},{$set: {type:"Back End"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Youtube',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: true
+  }
+]
+mydb1> db.diptadata.updateMany({type:"Back End"},{$set:{active:false}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Youtube',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 20,
+    active: false
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: false
+  }
+]
+mydb1> db.diptadata.find({},{_id:1})
+[
+  { _id: ObjectId('6667e4e230b11fa6b6cdcdf6') },
+  { _id: ObjectId('6667e6c330b11fa6b6cdcdf7') },
+  { _id: ObjectId('6667eb8bc7b51c20e9cdcdf6') },
+  { _id: ObjectId('6667ec39c7b51c20e9cdcdf7') },
+  { _id: ObjectId('6667ec39c7b51c20e9cdcdf8') }
+]
+mydb1> db.diptadata.find({},{name:1})
+[
+  { _id: ObjectId('6667e4e230b11fa6b6cdcdf6'), name: 'ReactJs' },
+  { _id: ObjectId('6667e6c330b11fa6b6cdcdf7'), name: 'MongoDB' },
+  { _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'), name: 'Youtube' },
+  { _id: ObjectId('6667ec39c7b51c20e9cdcdf7'), name: 'NodeJs' },
+  { _id: ObjectId('6667ec39c7b51c20e9cdcdf8'), name: 'ExpressJs' }
+]
+mydb1> db.diptadata.find({},{name:1,_id:0})
+[
+  { name: 'ReactJs' },
+  { name: 'MongoDB' },
+  { name: 'Youtube' },
+  { name: 'NodeJs' },
+  { name: 'ExpressJs' }
+]
+mydb1> db.diptadata.find({active:true},{name:1,_id:0})
+[ { name: 'ReactJs' }, { name: 'MongoDB' }, { name: 'Youtube' } ]
+mydb1> db.diptadata.find({active:true},{name:1,_id:0}).pretty()
+[ { name: 'ReactJs' }, { name: 'MongoDB' }, { name: 'Youtube' } ]
+mydb1> db.diptadata.find({active:true},{name:1,_id:0}).pretty()
+[ { name: 'ReactJs' }, { name: 'MongoDB' }, { name: 'Youtube' } ]
+mydb1> db.diptadata.find({active:true},{name:1})
+[
+  { _id: ObjectId('6667e4e230b11fa6b6cdcdf6'), name: 'ReactJs' },
+  { _id: ObjectId('6667e6c330b11fa6b6cdcdf7'), name: 'MongoDB' },
+  { _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'), name: 'Youtube' }
+]
+mydb1> db.diptadata.find({active:true},{name:1,_id:0}).pretty()
+[ { name: 'ReactJs' }, { name: 'MongoDB' }, { name: 'Youtube' } ]
+mydb1> db.diptadata.find({},{name:1,_id:0})
+[
+  { name: 'ReactJs' },
+  { name: 'MongoDB' },
+  { name: 'Youtube' },
+  { name: 'NodeJs' },
+  { name: 'ExpressJs' }
+]
+mydb1> db.diptadata.updatemany({name:"Youtube"},{$set{name:"Javascript"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:46)
+
+> 1 | db.diptadata.updatemany({name:"Youtube"},{$set{name:"Javascript"}})
+    |                                               ^
+  2 |
+
+mydb1> db.diptadata.updatemany({name:"Youtube"},{$set:{name:"Javascript"}})
+TypeError: db.diptadata.updatemany is not a function
+mydb1> db.diptadata.updateMany({name:"Youtube"},{$set:{name:"Javascript"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Javascript',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 20,
+    active: false
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: false
+  }
+]
+mydb1> db.diptadata.update({name:"MongoDB"},{$set:{Database}})
+ReferenceError: Database is not defined
+mydb1> db.diptadata.update({name:"MongoDB"},{$set:{type:"Database"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Database',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Javascript',
+    type: 'Social Media',
+    videos: 20,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 20,
+    active: false
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: false
+  }
+]
+mydb1> db.diptadata.updateMany({videos:20},{$set:{videos:50}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Database',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Javascript',
+    type: 'Social Media',
+    videos: 50,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 50,
+    active: false
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: false
+  }
+]
+mydb1> db.diptadata.updateMany({videos:1},{$set:{data:"nothing"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Database',
+    videos: 80,
+    active: true
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Javascript',
+    type: 'Social Media',
+    videos: 50,
+    active: true
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    videos: 50,
+    active: false
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    videos: 29,
+    active: false
+  }
+]
+mydb1> db.diptadata.updateMany({videos:1},{$set:{data:30}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.replaceMany({videos:1},{$set:{data:30}})
+TypeError: db.diptadata.replaceMany is not a function
+mydb1> db.diptadata.replaceAll({videos:1},{$set:{data:30}})
+TypeError: db.diptadata.replaceAll is not a function
+mydb1> db.diptadata.replaceOne({videos:50},{$set:{data:30}})
+MongoInvalidArgumentError: Replacement document must not contain atomic operators
+mydb1> db.diptadata.replaceOne({videos},{$set:{data:30}})
+ReferenceError: videos is not defined
+mydb1> db.diptadata.replaceOne({videos:1},{$set:{data:30}})
+MongoInvalidArgumentError: Replacement document must not contain atomic operators
+mydb1> db.diptadata.updateMany()
+MongoshInvalidInputError: [COMMON-10001] Missing required argument at position 0 (Collection.updateMany)
+mydb1> db.diptadata.updateMany( {"videos":{$exists:true}}, [{$set:{"data":"$videos"},},{$unset:"videos"}])
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    active: true,
+    data: 80
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Database',
+    active: true,
+    data: 80
+  },
+  {
+    _id: ObjectId('6667eb8bc7b51c20e9cdcdf6'),
+    name: 'Javascript',
+    type: 'Social Media',
+    active: true,
+    data: 50
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    active: false,
+    data: 50
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    active: false,
+    data: 29
+  }
+]
+mydb1> db.diptadata.deleteMany({type:"Social Media"})
+{ acknowledged: true, deletedCount: 1 }
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    active: true,
+    data: 80
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Database',
+    active: true,
+    data: 80
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    active: false,
+    data: 50
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    active: false,
+    data: 29
+  }
+]
+mydb1> db.diptadata.insertOne({name:"JavaScript", type:"Front End", active:true,data:60})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6668140ba0d70b0391cdcdf6')
+}
+mydb1> db.diptadata.find()
+[
+  {
+    _id: ObjectId('6667e4e230b11fa6b6cdcdf6'),
+    name: 'ReactJs',
+    type: 'Full Stack',
+    active: true,
+    data: 80
+  },
+  {
+    _id: ObjectId('6667e6c330b11fa6b6cdcdf7'),
+    name: 'MongoDB',
+    type: 'Database',
+    active: true,
+    data: 80
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf7'),
+    name: 'NodeJs',
+    type: 'Back End',
+    active: false,
+    data: 50
+  },
+  {
+    _id: ObjectId('6667ec39c7b51c20e9cdcdf8'),
+    name: 'ExpressJs',
+    type: 'Back End',
+    active: false,
+    data: 29
+  },
+  {
+    _id: ObjectId('6668140ba0d70b0391cdcdf6'),
+    name: 'JavaScript',
+    type: 'Front End',
+    active: true,
+    data: 60
+  }
+]
+mydb1>
